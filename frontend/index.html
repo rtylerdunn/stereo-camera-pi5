@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>StereoCam Pi</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <h1>StereoCam Pi</h1>
+      <div class="status-pill" id="status-pill">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="status-text">Connecting…</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Live previews -->
+    <section class="card previews-card">
+      <h2 class="section-title">Live Preview</h2>
+      <div class="preview-grid">
+        <div class="preview-pane">
+          <div class="preview-label">Left</div>
+          <img class="stream-img" id="left-stream" src="/stream/left" alt="Left camera">
+        </div>
+        <div class="preview-pane">
+          <div class="preview-label">Right</div>
+          <img class="stream-img" id="right-stream" src="/stream/right" alt="Right camera">
+        </div>
+      </div>
+    </section>
+
+    <!-- Capture controls -->
+    <section class="card controls-card">
+      <button class="capture-btn" id="capture-btn" onclick="triggerCapture()">
+        <span class="capture-icon">⬤</span> Capture Stereo
+      </button>
+      <div class="capture-status" id="capture-status"></div>
+    </section>
+
+    <!-- Last anaglyph -->
+    <section class="card anaglyph-card" id="anaglyph-card" style="display:none">
+      <h2 class="section-title">Last Anaglyph</h2>
+      <img class="anaglyph-img" id="anaglyph-img" alt="Anaglyph preview">
+      <div class="anaglyph-meta" id="anaglyph-meta"></div>
+      <div class="reprocess-row">
+        <label>Method:
+          <select id="method-select">
+            <option value="color">Color</option>
+            <option value="halfcolor">Half-Color</option>
+            <option value="gray">Grayscale</option>
+            <option value="wimmer">Wimmer</option>
+          </select>
+        </label>
+        <button class="btn-secondary" onclick="reprocessLast()">Reprocess</button>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="card gallery-card">
+      <div class="gallery-header">
+        <h2 class="section-title">Gallery</h2>
+        <button class="btn-ghost" onclick="loadGallery()">↻ Refresh</button>
+      </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-empty">No captures yet.</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal for full-size image view -->
+  <div class="modal" id="modal" onclick="closeModal()">
+    <div class="modal-inner" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <img class="modal-img" id="modal-img" alt="">
+      <div class="modal-tabs">
+        <button onclick="showModalKind('anaglyph')">Anaglyph</button>
+        <button onclick="showModalKind('left')">Left</button>
+        <button onclick="showModalKind('right')">Right</button>
+        <a class="btn-dl" id="modal-dl" download>⬇ Download</a>
+      </div>
+      <div class="modal-meta" id="modal-meta"></div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

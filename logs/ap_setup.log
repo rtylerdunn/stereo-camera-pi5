@@ -1,0 +1,21 @@
+=== StereoCam AP Setup: Fri  8 May 14:42:54 CEST 2026 ===
+[1] Switching wlan0 to 2.4GHz...
+    Active connection: netplan-wlan0-dungy
+Error: Connection activation failed: The Wi-Fi network could not be found
+Hint: use 'journalctl -xe NM_CONNECTION=d37dbdb8-10ee-3f5e-a99d-5dd8e61ea6dd + NM_DEVICE=wlan0' to get more details.
+[1] Waiting 15s for reconnect...
+[2] wlan0 now on channel 100 (2.4GHz)
+[3] Creating uap0 virtual interface...
+    uap0 up:     inet 192.168.4.1/24 scope global uap0
+[4] Restarting dnsmasq...
+active
+    dnsmasq: running
+[5] Starting hostapd...
+Removed '/etc/systemd/system/hostapd.service'.
+Synchronizing state of hostapd.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable hostapd
+Job for hostapd.service failed because the control process exited with error code.
+See "systemctl status hostapd.service" and "journalctl -xeu hostapd.service" for details.
+ll enable hostapd
+Job for hostapd.service failed because the control process exited with error code.
+See "systemctl status hostapd.service" and "journalctl -xeu hostapd.service" for details.

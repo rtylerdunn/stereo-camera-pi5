@@ -1,0 +1,487 @@
+2026-05-08 14:15:48,121 __main__             INFO: Initialising cameras…
+2026-05-08 14:15:48,161 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 14:15:48,161 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 14:15:48,162 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 14:15:48,163 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 14:15:48,165 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 14:15:48,165 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 14:15:48,188 picamera2.picamera2  INFO: Camera started
+2026-05-08 14:15:48,267 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 14:15:48,267 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 14:15:48,289 picamera2.picamera2  INFO: Camera started
+2026-05-08 14:15:50,290 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 14:15:50,291 camera               INFO: Preview streaming started
+2026-05-08 14:15:50,291 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 14:15:50,303 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.1.140:8080
+2026-05-08 14:15:50,303 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 14:15:57,561 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 14:15:57] "GET / HTTP/1.1" 200 -
+2026-05-08 14:15:57,574 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 14:15:57] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:24:58,612 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:58] "GET / HTTP/1.1" 200 -
+2026-05-08 14:24:58,818 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:58] "GET /static/style.css HTTP/1.1" 200 -
+2026-05-08 14:24:58,976 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:58] "GET /static/app.js HTTP/1.1" 200 -
+2026-05-08 14:24:58,988 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:58] "GET /stream/right HTTP/1.1" 200 -
+2026-05-08 14:24:58,988 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:58] "GET /stream/left HTTP/1.1" 200 -
+2026-05-08 14:24:59,310 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:59] "GET /captures HTTP/1.1" 200 -
+2026-05-08 14:24:59,313 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:59] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:24:59,333 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:24:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-05-08 14:25:03,997 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:03] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:09,323 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:09] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:14,324 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:14] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:16,097 __main__             INFO: Capture request received
+2026-05-08 14:25:16,141 camera               INFO: Synchronized capture complete
+2026-05-08 14:25:16,377 storage              INFO: Saved capture → /home/tyler/stereo-camera/images/2026-05-08/session_0001
+2026-05-08 14:25:16,377 __main__             INFO: Capture saved: 2026-05-08/session_0001
+2026-05-08 14:25:16,378 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:16] "POST /capture HTTP/1.1" 200 -
+2026-05-08 14:25:16,730 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:16] "GET /captures HTTP/1.1" 200 -
+2026-05-08 14:25:16,731 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:16] "GET /images/2026-05-08/session_0001/anaglyph?t=1778243115671 HTTP/1.1" 200 -
+2026-05-08 14:25:17,096 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:17] "GET /images/2026-05-08/session_0001/anaglyph HTTP/1.1" 200 -
+2026-05-08 14:25:19,321 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:19] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:24,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:24] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:29,304 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:29] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:34,304 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:34] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:39,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:44,313 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:49,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:49] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:54,310 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:54] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:25:59,336 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:25:59] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:04,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:04] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:09,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:09] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:14,319 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:14] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:19,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:19] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:24,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:24] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:29,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:29] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:34,299 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:34] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:39,306 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:44,324 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:49,304 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:49] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:54,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:54] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:26:59,321 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:26:59] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:04,330 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:04] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:09,308 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:09] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:14,315 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:14] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:19,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:19] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:24,309 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:24] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:29,308 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:29] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:34,299 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:34] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:39,336 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:44,309 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:49,316 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:49] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:54,306 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:54] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:27:59,308 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:27:59] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:04,301 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:04] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:09,332 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:09] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:14,306 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:14] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:19,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:19] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:24,305 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:24] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:29,309 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:29] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:34,298 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:34] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:39,309 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:44,305 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:49,298 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:49] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:54,308 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:54] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:28:59,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:28:59] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:04,295 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:04] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:09,306 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:09] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:14,319 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:14] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:19,297 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:19] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:24,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:24] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:29,307 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:29] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:34,314 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:34] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:39,303 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:44,312 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:49,315 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:49] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:54,300 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:54] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:29:59,310 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:29:59] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:04,294 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:04] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:09,305 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:09] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:14,301 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:14] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:19,325 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:19] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:24,299 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:24] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:29,294 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:29] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:34,307 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:34] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:39,305 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:44,313 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:50,206 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:50] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:30:55,204 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:30:55] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:00,207 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:00] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:05,203 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:05] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:10,206 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:15,216 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:15] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:20,223 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:25,201 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:25] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:30,208 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:30] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:35,219 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:35] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:40,200 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:40] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:31:45,213 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:31:45] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:32:22,225 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:32:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:33:22,203 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:33:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:34:22,235 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:34:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:35:22,206 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:35:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:36:22,230 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:36:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:37:22,207 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:37:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:38:22,232 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:38:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:39:22,206 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:39:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:40:22,240 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:40:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:41:22,195 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:41:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:42:22,228 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 14:42:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 14:59:03,789 werkzeug             ERROR: Error on request:
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 334, in execute
+    write(data)
+    ~~~~~^^^^^^
+  File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 309, in write
+    self.wfile.write(data)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+OSError: [Errno 101] Network is unreachable
+2026-05-08 14:59:03,790 werkzeug             ERROR: Error on request:
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 370, in run_wsgi
+    execute(self.server.app)
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 334, in execute
+    write(data)
+    ~~~~~^^^^^^
+  File "/usr/lib/python3/dist-packages/werkzeug/serving.py", line 309, in write
+    self.wfile.write(data)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+OSError: [Errno 101] Network is unreachable
+2026-05-08 16:55:34,847 __main__             INFO: Initialising cameras…
+2026-05-08 16:55:34,891 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 16:55:34,891 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 16:55:34,893 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 16:55:34,893 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 16:55:34,895 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 16:55:34,895 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 16:55:34,923 picamera2.picamera2  INFO: Camera started
+2026-05-08 16:55:35,047 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 16:55:35,047 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 16:55:35,092 picamera2.picamera2  INFO: Camera started
+2026-05-08 16:55:37,094 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 16:55:37,095 camera               INFO: Preview streaming started
+2026-05-08 16:55:37,095 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 16:55:37,161 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://127.0.0.1:8080
+2026-05-08 16:55:37,162 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 16:55:35,266 __main__             INFO: Initialising cameras…
+2026-05-08 16:55:35,306 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 16:55:35,306 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 16:55:35,308 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 16:55:35,308 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 16:55:35,310 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 16:55:35,310 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 16:55:35,337 picamera2.picamera2  INFO: Camera started
+2026-05-08 16:55:35,476 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 16:55:35,477 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 16:55:35,557 picamera2.picamera2  INFO: Camera started
+2026-05-08 16:55:37,558 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 16:55:37,558 camera               INFO: Preview streaming started
+2026-05-08 16:55:37,558 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 16:55:37,617 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://127.0.0.1:8080
+2026-05-08 16:55:37,617 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 17:08:22,409 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:08:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:08:58,175 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 17:08:58] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:08:58,186 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 17:08:58] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:09:22,048 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:09:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:10:22,397 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:10:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:11:22,039 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:11:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:12:22,385 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:12:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:13:22,044 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:13:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:14:22,392 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:14:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:15:05,576 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 17:15:05] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:15:22,056 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:15:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:16:22,396 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:16:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:17:22,060 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:17:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:18:22,419 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:18:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:19:22,061 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:19:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:20:22,401 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:20:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:21:22,065 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:21:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:21:49,866 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:49] "GET / HTTP/1.1" 200 -
+2026-05-08 17:21:50,234 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /static/style.css HTTP/1.1" 200 -
+2026-05-08 17:21:50,238 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /static/app.js HTTP/1.1" 200 -
+2026-05-08 17:21:50,347 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:21:50,353 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /captures HTTP/1.1" 200 -
+2026-05-08 17:21:50,409 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /stream/right HTTP/1.1" 200 -
+2026-05-08 17:21:50,409 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /stream/left HTTP/1.1" 200 -
+2026-05-08 17:21:50,436 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "GET /images/2026-05-08/session_0001/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:21:50,526 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-05-08 17:21:55,350 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:21:55] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:00,353 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:00] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:05,355 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:05] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:05,859 __main__             INFO: Capture request received
+2026-05-08 17:22:05,901 camera               INFO: Synchronized capture complete
+2026-05-08 17:22:06,123 storage              INFO: Saved capture → /home/tyler/stereo-camera/images/2026-05-08/session_0002
+2026-05-08 17:22:06,124 __main__             INFO: Capture saved: 2026-05-08/session_0002
+2026-05-08 17:22:06,124 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:06] "POST /capture HTTP/1.1" 200 -
+2026-05-08 17:22:06,139 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:06] "GET /images/2026-05-08/session_0002/anaglyph?t=1778253726120 HTTP/1.1" 200 -
+2026-05-08 17:22:06,172 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:06] "GET /captures HTTP/1.1" 200 -
+2026-05-08 17:22:06,229 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:06] "[36mGET /images/2026-05-08/session_0001/anaglyph HTTP/1.1[0m" 304 -
+2026-05-08 17:22:06,229 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:06] "GET /images/2026-05-08/session_0002/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:22:10,353 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:15,357 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:15] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:20,354 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:22,400 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:22:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:22,757 __main__             INFO: Capture request received
+2026-05-08 17:22:22,826 camera               INFO: Synchronized capture complete
+2026-05-08 17:22:23,048 storage              INFO: Saved capture → /home/tyler/stereo-camera/images/2026-05-08/session_0003
+2026-05-08 17:22:23,048 __main__             INFO: Capture saved: 2026-05-08/session_0003
+2026-05-08 17:22:23,048 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:23] "POST /capture HTTP/1.1" 200 -
+2026-05-08 17:22:23,069 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:23] "GET /images/2026-05-08/session_0003/anaglyph?t=1778253743050 HTTP/1.1" 200 -
+2026-05-08 17:22:23,071 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:23] "GET /captures HTTP/1.1" 200 -
+2026-05-08 17:22:23,135 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:23] "GET /images/2026-05-08/session_0003/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:22:23,136 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:23] "[36mGET /images/2026-05-08/session_0001/anaglyph HTTP/1.1[0m" 304 -
+2026-05-08 17:22:23,136 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:23] "[36mGET /images/2026-05-08/session_0002/anaglyph HTTP/1.1[0m" 304 -
+2026-05-08 17:22:25,355 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:25] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:30,356 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:30] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:35,353 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:35] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:40,356 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:40] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:45,356 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:45] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:50,355 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:50] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:22:55,355 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:22:55] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:23:00,356 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:23:00] "GET /status HTTP/1.1" 200 -
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2026-05-08 17:23:27,946 __main__             INFO: Initialising cameras…
+2026-05-08 17:23:27,988 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 17:23:27,988 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 17:23:27,989 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 17:23:27,990 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 17:23:27,992 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 17:23:27,992 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 17:23:28,019 picamera2.picamera2  INFO: Camera started
+2026-05-08 17:23:28,154 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 17:23:28,155 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 17:23:28,235 picamera2.picamera2  INFO: Camera started
+2026-05-08 17:23:30,235 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 17:23:30,235 camera               INFO: Preview streaming started
+2026-05-08 17:23:30,235 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 17:23:30,296 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://127.0.0.1:8080
+2026-05-08 17:23:30,297 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 17:43:15,406 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:43:15] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:43:15,422 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:43:15] "GET /captures HTTP/1.1" 200 -
+2026-05-08 17:43:15,588 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:43:15] "GET /stream/right HTTP/1.1" 200 -
+2026-05-08 17:43:15,588 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:43:15] "GET /stream/left HTTP/1.1" 200 -
+2026-05-08 17:43:20,376 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:43:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,629 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,634 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,637 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,638 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,639 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,640 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:10,644 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /images/2026-05-08/session_0003/anaglyph?t=1778255129958 HTTP/1.1" 200 -
+2026-05-08 17:44:10,648 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:15,364 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:15] "GET /images/2026-05-08/session_0003/anaglyph?t=1778255129958 HTTP/1.1" 200 -
+2026-05-08 17:44:20,632 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:25,631 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:25] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:44:30,636 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:44:30] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:45:21,327 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:45:21] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:45:26,328 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:45:26] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:45:39,611 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:45:39] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:06,919 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:06] "GET / HTTP/1.1" 200 -
+2026-05-08 17:46:09,973 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:09] "GET /stream/left HTTP/1.1" 200 -
+2026-05-08 17:46:09,986 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:09] "GET /static/style.css HTTP/1.1" 200 -
+2026-05-08 17:46:09,987 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:09] "GET /static/app.js HTTP/1.1" 200 -
+2026-05-08 17:46:10,001 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:10,002 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:10] "GET /stream/right HTTP/1.1" 200 -
+2026-05-08 17:46:10,003 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:10] "GET /captures HTTP/1.1" 200 -
+2026-05-08 17:46:10,046 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:10] "GET /images/2026-05-08/session_0003/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:46:10,049 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:10] "GET /images/2026-05-08/session_0002/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:46:10,051 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:10] "GET /images/2026-05-08/session_0001/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:46:15,007 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:15] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:20,005 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:25,008 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:25,461 __main__             INFO: Capture request received
+2026-05-08 17:46:25,510 camera               INFO: Synchronized capture complete
+2026-05-08 17:46:25,732 storage              INFO: Saved capture → /home/tyler/stereo-camera/images/2026-05-08/session_0004
+2026-05-08 17:46:25,732 __main__             INFO: Capture saved: 2026-05-08/session_0004
+2026-05-08 17:46:25,733 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "POST /capture HTTP/1.1" 200 -
+2026-05-08 17:46:25,751 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "GET /images/2026-05-08/session_0004/anaglyph?t=1778255296458 HTTP/1.1" 200 -
+2026-05-08 17:46:25,795 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "GET /captures HTTP/1.1" 200 -
+2026-05-08 17:46:25,839 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "GET /images/2026-05-08/session_0004/anaglyph HTTP/1.1" 200 -
+2026-05-08 17:46:25,843 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "[36mGET /images/2026-05-08/session_0003/anaglyph HTTP/1.1[0m" 304 -
+2026-05-08 17:46:25,845 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "[36mGET /images/2026-05-08/session_0001/anaglyph HTTP/1.1[0m" 304 -
+2026-05-08 17:46:25,850 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:25] "[36mGET /images/2026-05-08/session_0002/anaglyph HTTP/1.1[0m" 304 -
+2026-05-08 17:46:30,004 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:30] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:35,006 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:35] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:40,005 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:40] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:43,796 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:43] "GET /images/2026-05-08/session_0003/anaglyph?t=1778255314504 HTTP/1.1" 200 -
+2026-05-08 17:46:45,008 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:45] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:49,158 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:49] "GET /images/2026-05-08/session_0003/anaglyph?t=1778255319864 HTTP/1.1" 200 -
+2026-05-08 17:46:49,699 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:49] "GET /images/2026-05-08/session_0003/left?t=1778255320376 HTTP/1.1" 200 -
+2026-05-08 17:46:50,007 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:50] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:46:50,753 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:50] "GET /images/2026-05-08/session_0003/right?t=1778255321459 HTTP/1.1" 200 -
+2026-05-08 17:46:51,949 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:51] "GET /images/2026-05-08/session_0003/anaglyph?t=1778255322657 HTTP/1.1" 200 -
+2026-05-08 17:46:55,017 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:46:55] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:00,021 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:00] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:04,482 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:04] "GET /images/2026-05-08/session_0002/anaglyph?t=1778255335179 HTTP/1.1" 200 -
+2026-05-08 17:47:05,021 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:05] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:10,020 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:15,022 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:15] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:20,025 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:25,024 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:25] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:30,028 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:30] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:35,024 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:35] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:38,979 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:38] "GET /images/2026-05-08/session_0001/anaglyph?t=1778255369682 HTTP/1.1" 200 -
+2026-05-08 17:47:40,026 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:40] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:45,028 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:45] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:50,028 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:50] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:47:51,316 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:51] "GET /images/2026-05-08/session_0004/anaglyph?t=1778255382014 HTTP/1.1" 200 -
+2026-05-08 17:47:55,030 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:47:55] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:00,032 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:00] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:05,032 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:05] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:10,033 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:10] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:15,033 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:15] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:20,032 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:20] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:25,037 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:25] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:30,036 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:30] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:35,041 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:35] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:40,037 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:40] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:48:45,039 werkzeug             INFO: 192.168.4.43 - - [08/May/2026 17:48:45] "GET /status HTTP/1.1" 200 -
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               2026-05-08 17:48:45,052 __main__             INFO: Initialising cameras…
+2026-05-08 17:48:45,095 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 17:48:45,095 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 17:48:45,097 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 17:48:45,097 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 17:48:45,099 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 17:48:45,099 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 17:48:45,126 picamera2.picamera2  INFO: Camera started
+2026-05-08 17:48:45,250 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 17:48:45,251 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 17:48:45,295 picamera2.picamera2  INFO: Camera started
+2026-05-08 17:48:47,295 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 17:48:47,295 camera               INFO: Preview streaming started
+2026-05-08 17:48:47,296 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 17:48:47,358 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.1.145:8080
+2026-05-08 17:48:47,359 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 17:58:22,675 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:58:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 17:59:22,080 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 17:59:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:00:22,408 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:00:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:01:22,076 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:01:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:02:22,427 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:02:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:03:22,078 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:03:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:04:22,413 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:04:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:05:22,086 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:05:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:06:22,423 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:06:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:07:22,085 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:07:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:08:22,433 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:08:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:09:22,084 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:09:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:10:22,429 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:10:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:11:22,099 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:11:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:12:22,427 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:12:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:13:22,093 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:13:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:14:22,429 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:14:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:15:22,094 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:15:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:16:22,428 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:16:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:17:22,096 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:17:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:18:22,431 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:18:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:19:22,088 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:19:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:20:22,430 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:20:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:21:22,096 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:21:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:22:22,428 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:22:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:23:22,102 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:23:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:24:22,440 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:24:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:25:22,097 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:25:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:26:22,432 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:26:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:27:22,413 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:27:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:28:22,106 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:28:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:29:22,432 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:29:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:30:22,104 werkzeug             INFO: 192.168.1.32 - - [08/May/2026 18:30:22] "GET /status HTTP/1.1" 200 -
+2026-05-08 18:42:08,418 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 18:42:08] "GET /status HTTP/1.1" 200 -
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        2026-05-08 18:42:18,468 __main__             INFO: Initialising cameras…
+2026-05-08 18:42:18,511 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 18:42:18,512 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 18:42:18,515 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 18:42:18,515 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 18:42:18,520 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 18:42:18,521 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 18:42:18,556 picamera2.picamera2  INFO: Camera started
+2026-05-08 18:42:18,681 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 18:42:18,681 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 18:42:18,720 picamera2.picamera2  INFO: Camera started
+2026-05-08 18:42:20,720 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 18:42:20,721 camera               INFO: Preview streaming started
+2026-05-08 18:42:20,721 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 18:42:20,772 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.1.140:8080
+2026-05-08 18:42:20,773 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 18:50:33,729 __main__             INFO: Initialising cameras…
+2026-05-08 18:50:33,770 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 18:50:33,770 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 18:50:33,772 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 18:50:33,772 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 18:50:33,774 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 18:50:33,775 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 18:50:33,801 picamera2.picamera2  INFO: Camera started
+2026-05-08 18:50:33,925 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 18:50:33,926 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 18:50:33,977 picamera2.picamera2  INFO: Camera started
+2026-05-08 18:50:35,979 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 18:50:35,982 camera               INFO: Preview streaming started
+2026-05-08 18:50:35,982 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 18:50:36,015 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.1.140:8080
+2026-05-08 18:50:36,015 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 19:00:28,357 __main__             INFO: Initialising cameras…
+2026-05-08 19:00:28,399 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 19:00:28,399 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 19:00:28,401 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 19:00:28,401 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 19:00:28,403 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 19:00:28,403 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 19:00:28,431 picamera2.picamera2  INFO: Camera started
+2026-05-08 19:00:28,555 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 19:00:28,555 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 19:00:28,606 picamera2.picamera2  INFO: Camera started
+2026-05-08 19:00:30,606 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 19:00:30,607 camera               INFO: Preview streaming started
+2026-05-08 19:00:30,608 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 19:00:30,667 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.1.145:8080
+2026-05-08 19:00:30,668 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 19:12:44,155 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 19:12:44] "GET /status HTTP/1.1" 200 -
+2026-05-08 19:14:18,898 __main__             INFO: Initialising cameras…
+2026-05-08 19:14:18,937 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 19:14:18,937 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 19:14:18,939 picamera2.picamera2  INFO: Initialization successful.
+2026-05-08 19:14:18,939 picamera2.picamera2  INFO: Camera now open.
+2026-05-08 19:14:18,941 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 19:14:18,942 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 19:14:18,963 picamera2.picamera2  INFO: Camera started
+2026-05-08 19:14:19,013 picamera2.picamera2  INFO: Camera configuration has been adjusted!
+2026-05-08 19:14:19,014 picamera2.picamera2  INFO: Configuration successful!
+2026-05-08 19:14:19,035 picamera2.picamera2  INFO: Camera started
+2026-05-08 19:14:21,035 camera               INFO: Cameras initialised: left=0 right=1 res=2304x1296
+2026-05-08 19:14:21,036 camera               INFO: Preview streaming started
+2026-05-08 19:14:21,036 __main__             INFO: Starting Flask on 0.0.0.0:8080
+2026-05-08 19:14:21,047 werkzeug             INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.1.145:8080
+2026-05-08 19:14:21,047 werkzeug             INFO: [33mPress CTRL+C to quit[0m
+2026-05-08 19:14:21,821 werkzeug             INFO: 127.0.0.1 - - [08/May/2026 19:14:21] "GET /health HTTP/1.1" 200 -

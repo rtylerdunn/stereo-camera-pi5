@@ -1,0 +1,21 @@
+[Unit]
+Description=StereoCam Pi Web Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=tyler
+WorkingDirectory=/home/tyler/stereo-camera/backend
+ExecStart=/usr/bin/python3 /home/tyler/stereo-camera/backend/app.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=stereocam
+
+# Give libcamera access to camera devices
+SupplementaryGroups=video render
+
+[Install]
+WantedBy=multi-user.target

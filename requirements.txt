@@ -1,0 +1,12 @@
+# StereoCam Pi — system package dependencies
+# Install on Raspberry Pi OS (Debian trixie) with:
+#   sudo apt-get install $(grep -v '^#' requirements.txt | tr '\n' ' ')
+
+python3-picamera2
+python3-flask
+python3-opencv
+python3-numpy
+python3-pip
+network-manager
+iw
+rfkill
