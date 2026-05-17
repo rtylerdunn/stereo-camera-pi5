@@ -14,7 +14,9 @@ Routes:
 """
 
 import logging
+import subprocess
 import sys
+import threading
 import time
 from datetime import datetime
 from pathlib import Path
@@ -27,7 +29,7 @@ from flask import Flask, Response, jsonify, request, send_file
 # Make backend/ importable when run directly
 sys.path.insert(0, str(Path(__file__).parent))
 
-from anaglyph import AnaglyphMethod, generate_anaglyph, reprocess_pair
+from anaglyph import AnaglyphMethod, generate_anaglyph, generate_anaglyphs, reprocess_pair
 from camera import CameraError, StereoCamera
 from config import config
 from storage import ImageStorage, StorageError
@@ -72,7 +74,7 @@ last_capture: dict = {}
 # ------------------------------------------------------------------
 
 def _mjpeg_generator(side: str):
-    target_interval = 1.0 / 30  # 30 fps cap
+    target_interval = 1.0 / 10  # 10 fps cap — reduces bandwidth for reliable capture
     while True:
         t0 = time.monotonic()
         left, right = stereo_cam.get_preview_frames()
@@ -80,7 +82,7 @@ def _mjpeg_generator(side: str):
         if frame is None:
             time.sleep(0.05)
             continue
-        jpeg = stereo_cam.encode_jpeg(frame, quality=70)
+        jpeg = stereo_cam.encode_jpeg(frame, quality=50)
         yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + jpeg + b"\r\n"
         elapsed = time.monotonic() - t0
         sleep_for = max(0.0, target_interval - elapsed)
@@ -134,14 +136,16 @@ def capture():
 
         left_bgr, right_bgr = stereo_cam.capture_synchronized()
 
-        method_key = config.get("anaglyph", {}).get("method", "color").upper()
-        try:
-            method = AnaglyphMethod[method_key]
-        except KeyError:
-            method = AnaglyphMethod.COLOR
-
-        anaglyph = generate_anaglyph(left_bgr, right_bgr, method)
-        result = storage.save_capture(left_bgr, right_bgr, anaglyph, ts)
+        anaglyphs_map = generate_anaglyphs(
+            left_bgr, right_bgr,
+            [AnaglyphMethod.DUBOIS, AnaglyphMethod.HALFCOLOR, AnaglyphMethod.GRAY],
+        )
+        anaglyphs = {
+            "anaglyph": anaglyphs_map[AnaglyphMethod.DUBOIS],
+            "halfcolor": anaglyphs_map[AnaglyphMethod.HALFCOLOR],
+            "gray":      anaglyphs_map[AnaglyphMethod.GRAY],
+        }
+        result = storage.save_capture(left_bgr, right_bgr, anaglyphs, ts)
         last_capture = result
 
         logger.info("Capture saved: %s/%s", result["date"], result["session"])
@@ -168,6 +172,60 @@ def health():
     ), 200 if cameras_ready else 503
 
 
+_RECONNECT = {
+    "ap":     {"url": "http://192.168.4.1:8080",   "ssid": "StereoCamPi"},
+    "client": {"url": "http://pi5.fritz.box:8080", "ssid": "dungy24"},
+}
+
+
+@app.route("/wifi/status")
+def wifi_status():
+    try:
+        result = subprocess.run(
+            ["nmcli", "-t", "-f", "NAME,DEVICE", "con", "show", "--active"],
+            capture_output=True, text=True, timeout=5,
+        )
+        for line in result.stdout.strip().splitlines():
+            name, _, device = line.rpartition(":")
+            if device == "wlan0":
+                if name == "dungy24":
+                    return jsonify({"mode": "client", "ssid": "dungy24"})
+                if name == "StereoCamPi-AP":
+                    return jsonify({"mode": "ap", "ssid": "StereoCamPi"})
+        return jsonify({"mode": "unknown", "ssid": None})
+    except Exception as exc:
+        logger.error("wifi_status error: %s", exc)
+        return jsonify({"mode": "unknown", "ssid": None})
+
+
+@app.route("/wifi/switch", methods=["POST"])
+def wifi_switch():
+    data = request.get_json(force=True)
+    target = data.get("target")
+    if target not in ("ap", "client"):
+        return jsonify({"status": "error", "message": "target must be 'ap' or 'client'"}), 400
+
+    def _do_switch():
+        time.sleep(2)
+        try:
+            if target == "ap":
+                subprocess.run(["sudo", "nmcli", "con", "mod", "dungy24",        "connection.autoconnect", "no"],  timeout=5)
+                subprocess.run(["sudo", "nmcli", "con", "down", "dungy24"],                                        timeout=10)
+                subprocess.run(["sudo", "nmcli", "con", "mod", "StereoCamPi-AP", "connection.autoconnect", "yes"], timeout=5)
+                subprocess.run(["sudo", "nmcli", "con", "up",   "StereoCamPi-AP"],                                 timeout=15)
+            else:
+                subprocess.run(["sudo", "nmcli", "con", "mod", "StereoCamPi-AP", "connection.autoconnect", "no"],  timeout=5)
+                subprocess.run(["sudo", "nmcli", "con", "down", "StereoCamPi-AP"],                                 timeout=10)
+                subprocess.run(["sudo", "nmcli", "con", "mod", "dungy24",        "connection.autoconnect", "yes"], timeout=5)
+                subprocess.run(["sudo", "nmcli", "con", "up",   "dungy24"],                                        timeout=15)
+            logger.info("WiFi switched to %s", target)
+        except Exception as exc:
+            logger.error("WiFi switch failed: %s", exc)
+
+    threading.Thread(target=_do_switch, daemon=True).start()
+    return jsonify({"status": "ok", "target": target, "reconnect": _RECONNECT[target]})
+
+
 @app.route("/captures")
 def list_captures():
     return jsonify(storage.list_captures())
@@ -183,7 +241,7 @@ def get_session(date, session):
 
 @app.route("/images/<date>/<session>/<kind>")
 def serve_image(date, session, kind):
-    if kind not in ("left", "right", "anaglyph"):
+    if kind not in ("left", "right", "anaglyph", "halfcolor", "gray"):
         return "Invalid image kind", 400
     path = storage.get_image_path(date, session, kind)
     if not path:

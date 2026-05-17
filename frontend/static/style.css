@@ -354,6 +354,64 @@ main {
   color: var(--muted);
 }
 
+/* ── WiFi card ────────────────────────────────────────────────── */
+.wifi-card { display: flex; flex-direction: column; gap: 12px; }
+
+.wifi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wifi-badge {
+  font-size: .72rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--border);
+  color: var(--muted);
+}
+
+.wifi-client { background: #1a3a2a; color: #4caf82; }
+.wifi-ap     { background: #2e2a14; color: #c9a83c; }
+
+.wifi-switch-btn { align-self: flex-start; }
+
+/* ── Reconnect overlay ────────────────────────────────────────── */
+#reconnect-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.88);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+#reconnect-overlay.open { display: flex; }
+
+.reconnect-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+}
+
+.reconnect-box h2   { font-size: 1.1rem; margin-bottom: 16px; }
+.reconnect-box p    { font-size: .85rem; color: var(--muted); }
+.reconnect-ssid     { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin: 8px 0 4px; }
+
+.reconnect-url {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: .95rem;
+  color: var(--accent2);
+  word-break: break-all;
+}
+
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .preview-grid { grid-template-columns: 1fr; }

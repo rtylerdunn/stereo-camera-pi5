@@ -1,9 +1,19 @@
 {
     "cameras": {
-        "left": {"index": 0},
-        "right": {"index": 1},
-        "resolution": {"width": 2304, "height": 1296},
-        "preview_resolution": {"width": 640, "height": 360},
+        "left": {
+            "index": 0
+        },
+        "right": {
+            "index": 1
+        },
+        "resolution": {
+            "width": 2304,
+            "height": 1296
+        },
+        "preview_resolution": {
+            "width": 640,
+            "height": 360
+        },
         "framerate": 30
     },
     "storage": {
@@ -15,6 +25,6 @@
         "debug": false
     },
     "anaglyph": {
-        "method": "color"
+        "method": "dubois"
     }
 }

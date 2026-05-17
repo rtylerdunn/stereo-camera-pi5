@@ -51,14 +51,24 @@
       <div class="reprocess-row">
         <label>Method:
           <select id="method-select">
-            <option value="color">Color</option>
+            <option value="dubois">Dubois (default)</option>
             <option value="halfcolor">Half-Color</option>
             <option value="gray">Grayscale</option>
+            <option value="color">Color</option>
             <option value="wimmer">Wimmer</option>
           </select>
         </label>
         <button class="btn-secondary" onclick="reprocessLast()">Reprocess</button>
       </div>
+    </section>
+
+    <!-- WiFi mode -->
+    <section class="card wifi-card">
+      <div class="wifi-header">
+        <span class="section-title" style="margin:0">WiFi</span>
+        <span id="wifi-mode-badge" class="wifi-badge">…</span>
+      </div>
+      <button id="wifi-switch-btn" class="btn-secondary wifi-switch-btn" onclick="switchWifi()">…</button>
     </section>
 
     <!-- Gallery -->
@@ -80,12 +90,25 @@
       <button class="modal-close" onclick="closeModal()">✕</button>
       <img class="modal-img" id="modal-img" alt="">
       <div class="modal-tabs">
-        <button onclick="showModalKind('anaglyph')">Anaglyph</button>
+        <button onclick="showModalKind('anaglyph')">Dubois</button>
+        <button onclick="showModalKind('halfcolor')">Half-Color</button>
+        <button onclick="showModalKind('gray')">Gray</button>
         <button onclick="showModalKind('left')">Left</button>
         <button onclick="showModalKind('right')">Right</button>
         <a class="btn-dl" id="modal-dl" download>⬇ Download</a>
       </div>
       <div class="modal-meta" id="modal-meta"></div>
+    </div>
+  </div>
+
+  <!-- Reconnect overlay -->
+  <div id="reconnect-overlay">
+    <div class="reconnect-box">
+      <h2>Switching WiFi…</h2>
+      <p>Connect your device to:</p>
+      <div class="reconnect-ssid" id="rc-ssid"></div>
+      <p style="margin-top:20px">Then open:</p>
+      <a id="rc-url" class="reconnect-url" href="#"></a>
     </div>
   </div>
 

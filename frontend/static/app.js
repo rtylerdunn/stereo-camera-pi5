@@ -145,6 +145,68 @@ function updateModalImage() {
   });
 }
 
+// ── WiFi mode ──────────────────────────────────────────────────────────────
+
+async function getWifiStatus() {
+  try {
+    const data = await fetch('/wifi/status').then(r => r.json());
+    const badge = document.getElementById('wifi-mode-badge');
+    const btn   = document.getElementById('wifi-switch-btn');
+    if (data.mode === 'client') {
+      badge.textContent  = 'Home WiFi';
+      badge.className    = 'wifi-badge wifi-client';
+      btn.textContent    = 'Switch to Hotspot';
+      btn.dataset.target = 'ap';
+    } else if (data.mode === 'ap') {
+      badge.textContent  = 'Hotspot';
+      badge.className    = 'wifi-badge wifi-ap';
+      btn.textContent    = 'Switch to Home WiFi';
+      btn.dataset.target = 'client';
+    } else {
+      badge.textContent  = 'Unknown';
+      badge.className    = 'wifi-badge';
+      btn.textContent    = 'Retry';
+      btn.dataset.target = '';
+    }
+    btn.disabled = false;
+  } catch (_) {}
+}
+
+async function switchWifi() {
+  const btn    = document.getElementById('wifi-switch-btn');
+  const target = btn.dataset.target;
+  if (!target) { getWifiStatus(); return; }
+
+  btn.disabled    = true;
+  btn.textContent = 'Switching…';
+
+  const fallback = {
+    ap:     { url: 'http://192.168.4.1:8080',   ssid: 'StereoCamPi' },
+    client: { url: 'http://pi5.fritz.box:8080', ssid: 'dungy24' },
+  };
+
+  try {
+    const res  = await fetch('/wifi/switch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ target }),
+    });
+    const data = await res.json();
+    showReconnectOverlay(data.reconnect ?? fallback[target]);
+  } catch (_) {
+    // Connection dropped before response arrived — show overlay anyway
+    showReconnectOverlay(fallback[target]);
+  }
+}
+
+function showReconnectOverlay(info) {
+  document.getElementById('rc-ssid').textContent = info.ssid;
+  const urlEl = document.getElementById('rc-url');
+  urlEl.href        = info.url;
+  urlEl.textContent = info.url;
+  document.getElementById('reconnect-overlay').classList.add('open');
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────
 function formatTs(iso) {
   try {
@@ -159,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   pollStatus();
   setInterval(pollStatus, 5000);
   loadGallery();
+  getWifiStatus();
 
   // Restore stream src on error (network blip reconnect)
   ['left-stream', 'right-stream'].forEach(id => {

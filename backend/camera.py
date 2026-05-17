@@ -129,7 +129,7 @@ class StereoCamera:
             try:
                 barrier.wait(timeout=5)        # sync both threads
                 arr = cam.capture_array("main")  # RGB888
-                results[slot] = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
+                results[slot] = cv2.flip(cv2.cvtColor(arr, cv2.COLOR_RGB2BGR), -1)
             except Exception as exc:
                 errors.append(exc)
 
@@ -167,8 +167,8 @@ class StereoCamera:
                 left_yuv = self._left_cam.capture_array("lores")
                 right_yuv = self._right_cam.capture_array("lores")
 
-                left_bgr = cv2.cvtColor(left_yuv, cv2.COLOR_YUV420p2BGR)
-                right_bgr = cv2.cvtColor(right_yuv, cv2.COLOR_YUV420p2BGR)
+                left_bgr = cv2.flip(cv2.cvtColor(left_yuv, cv2.COLOR_YUV420p2BGR), -1)
+                right_bgr = cv2.flip(cv2.cvtColor(right_yuv, cv2.COLOR_YUV420p2BGR), -1)
 
                 with self._frame_lock:
                     self._left_frame = left_bgr
