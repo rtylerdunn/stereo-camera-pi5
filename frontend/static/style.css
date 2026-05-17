@@ -354,6 +354,55 @@ main {
   color: var(--muted);
 }
 
+/* ── Focus control ────────────────────────────────────────────── */
+.focus-card { display: flex; flex-direction: column; gap: 10px; }
+
+.focus-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.focus-row label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.focus-hint {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+.focus-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.focus-input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  width: 110px;
+}
+
+.focus-input::placeholder { color: var(--muted); }
+
+.focus-status {
+  font-size: 0.82rem;
+  color: var(--muted);
+  min-height: 1.2em;
+}
+
+.focus-status.ok    { color: #4ade80; }
+.focus-status.error { color: var(--accent); }
+
 /* ── WiFi card ────────────────────────────────────────────────── */
 .wifi-card { display: flex; flex-direction: column; gap: 12px; }
 

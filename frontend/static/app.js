@@ -145,6 +145,47 @@ function updateModalImage() {
   });
 }
 
+// ── Focus control ──────────────────────────────────────────────────
+async function loadFocus() {
+  try {
+    const data = await fetch('/focus').then(r => r.json());
+    const input = document.getElementById('focus-input');
+    input.value = (data.focus_dioptre !== null && data.focus_dioptre !== undefined)
+      ? data.focus_dioptre
+      : '';
+  } catch (_) {}
+}
+
+async function applyFocus() {
+  const input  = document.getElementById('focus-input');
+  const status = document.getElementById('focus-status');
+  const raw    = input.value.trim();
+  const dioptre = raw === '' ? null : parseFloat(raw);
+
+  status.className = 'focus-status';
+  status.textContent = dioptre === null ? 'Locking auto focus…' : `Setting focus to ${dioptre} dioptre…`;
+
+  try {
+    const res  = await fetch('/focus', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ focus_dioptre: dioptre }),
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      status.className = 'focus-status ok';
+      status.textContent = dioptre === null
+        ? 'Auto focus locked'
+        : `Focus locked at ${dioptre} dioptre`;
+    } else {
+      throw new Error(data.message || 'Unknown error');
+    }
+  } catch (err) {
+    status.className = 'focus-status error';
+    status.textContent = `Error: ${err.message}`;
+  }
+}
+
 // ── WiFi mode ──────────────────────────────────────────────────────────────
 
 async function getWifiStatus() {
@@ -221,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
   pollStatus();
   setInterval(pollStatus, 5000);
   loadGallery();
+  loadFocus();
   getWifiStatus();
 
   // Restore stream src on error (network blip reconnect)

@@ -71,6 +71,7 @@ class StereoCamera:
             # Let AGC/AWB settle
             time.sleep(2)
 
+            self.apply_focus(self._cfg.get("focus_dioptre"))
             self._initialized = True
             logger.info(
                 "Cameras initialised: left=%d right=%d res=%dx%d",
@@ -129,7 +130,7 @@ class StereoCamera:
             try:
                 barrier.wait(timeout=5)        # sync both threads
                 arr = cam.capture_array("main")  # RGB888
-                results[slot] = cv2.flip(cv2.cvtColor(arr, cv2.COLOR_RGB2BGR), -1)
+                results[slot] = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
             except Exception as exc:
                 errors.append(exc)
 
@@ -147,6 +148,52 @@ class StereoCamera:
 
         logger.info("Synchronized capture complete")
         return results[0], results[1]
+
+    def apply_focus(self, dioptre: Optional[float] = None) -> None:
+        """Set focus on both cameras. Fixed dioptre if given, else synchronized AF lock."""
+        if dioptre is not None:
+            for cam in (self._left_cam, self._right_cam):
+                cam.set_controls({"AfMode": 0, "LensPosition": float(dioptre)})
+            logger.info("Focus set to manual %.3f dioptre (%.1f m)", dioptre, 1.0 / dioptre if dioptre > 0 else float("inf"))
+        else:
+            self._af_lock()
+
+    def _af_lock(self) -> None:
+        """Trigger single-shot AF on both cameras, wait for convergence, lock both at the average."""
+        logger.info("Starting synchronized autofocus lock")
+        for cam in (self._left_cam, self._right_cam):
+            cam.set_controls({"AfMode": 1, "AfTrigger": 0})
+
+        deadline = time.monotonic() + 8.0
+        while time.monotonic() < deadline:
+            left_meta  = self._left_cam.capture_metadata()
+            right_meta = self._right_cam.capture_metadata()
+            if left_meta.get("AfState") == 2 and right_meta.get("AfState") == 2:
+                break
+            time.sleep(0.1)
+        else:
+            logger.warning("Autofocus did not converge within 8 s — locking at current positions")
+
+        left_meta  = self._left_cam.capture_metadata()
+        right_meta = self._right_cam.capture_metadata()
+        left_pos   = float(left_meta.get("LensPosition", 0.5))
+        right_pos  = float(right_meta.get("LensPosition", 0.5))
+        avg = (left_pos + right_pos) / 2.0
+
+        for cam in (self._left_cam, self._right_cam):
+            cam.set_controls({"AfMode": 0, "LensPosition": avg})
+        logger.info("AF lock: left=%.3f right=%.3f → locked at avg=%.3f", left_pos, right_pos, avg)
+
+    def get_lens_position(self) -> Optional[float]:
+        """Return the current LensPosition from the left camera metadata."""
+        if not self._initialized or self._left_cam is None:
+            return None
+        try:
+            meta = self._left_cam.capture_metadata()
+            pos = meta.get("LensPosition")
+            return float(pos) if pos is not None else None
+        except Exception:
+            return None
 
     @staticmethod
     def encode_jpeg(frame: np.ndarray, quality: int = 80) -> bytes:
@@ -167,8 +214,8 @@ class StereoCamera:
                 left_yuv = self._left_cam.capture_array("lores")
                 right_yuv = self._right_cam.capture_array("lores")
 
-                left_bgr = cv2.flip(cv2.cvtColor(left_yuv, cv2.COLOR_YUV420p2BGR), -1)
-                right_bgr = cv2.flip(cv2.cvtColor(right_yuv, cv2.COLOR_YUV420p2BGR), -1)
+                left_bgr = cv2.cvtColor(left_yuv, cv2.COLOR_YUV420p2BGR)
+                right_bgr = cv2.cvtColor(right_yuv, cv2.COLOR_YUV420p2BGR)
 
                 with self._frame_lock:
                     self._left_frame = left_bgr

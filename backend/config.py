@@ -12,4 +12,9 @@ def load_config() -> dict:
         return json.load(f)
 
 
+def save_config(cfg: dict) -> None:
+    with open(_CONFIG_PATH, "w") as f:
+        json.dump(cfg, f, indent=4)
+
+
 config = load_config()

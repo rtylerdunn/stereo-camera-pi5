@@ -51,15 +51,31 @@
       <div class="reprocess-row">
         <label>Method:
           <select id="method-select">
-            <option value="dubois">Dubois (default)</option>
+            <option value="color">Color</option>
             <option value="halfcolor">Half-Color</option>
             <option value="gray">Grayscale</option>
-            <option value="color">Color</option>
             <option value="wimmer">Wimmer</option>
           </select>
         </label>
         <button class="btn-secondary" onclick="reprocessLast()">Reprocess</button>
       </div>
+    </section>
+
+    <!-- Focus control -->
+    <section class="card focus-card">
+      <h2 class="section-title">Focus</h2>
+      <div class="focus-row">
+        <label for="focus-input">
+          Lens position (dioptres)
+          <span class="focus-hint">blank = auto · 0 = ∞ · 0.33 = 3 m · 0.5 = 2 m · 1 = 1 m · 2 = 0.5 m</span>
+        </label>
+        <div class="focus-controls">
+          <input type="number" id="focus-input" class="focus-input"
+                 placeholder="auto" min="0" max="10" step="0.05">
+          <button class="btn-secondary" onclick="applyFocus()">Apply</button>
+        </div>
+      </div>
+      <div class="focus-status" id="focus-status"></div>
     </section>
 
     <!-- WiFi mode -->
@@ -90,9 +106,7 @@
       <button class="modal-close" onclick="closeModal()">✕</button>
       <img class="modal-img" id="modal-img" alt="">
       <div class="modal-tabs">
-        <button onclick="showModalKind('anaglyph')">Dubois</button>
-        <button onclick="showModalKind('halfcolor')">Half-Color</button>
-        <button onclick="showModalKind('gray')">Gray</button>
+        <button onclick="showModalKind('anaglyph')">Anaglyph</button>
         <button onclick="showModalKind('left')">Left</button>
         <button onclick="showModalKind('right')">Right</button>
         <a class="btn-dl" id="modal-dl" download>⬇ Download</a>

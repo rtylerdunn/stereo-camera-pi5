@@ -11,12 +11,13 @@ Routes:
   GET  /captures/<date>/<sess>  JSON session metadata
   GET  /images/<date>/<sess>/<kind>  Serve left|right|anaglyph JPEG
   POST /reprocess               Re-generate anaglyph for existing session
+  GET  /focus                   Return stored focus_dioptre and live lens position
+  POST /focus                   Set focus (dioptre float) or null for auto AF lock
 """
 
 import logging
 import subprocess
 import sys
-import threading
 import time
 from datetime import datetime
 from pathlib import Path
@@ -29,9 +30,9 @@ from flask import Flask, Response, jsonify, request, send_file
 # Make backend/ importable when run directly
 sys.path.insert(0, str(Path(__file__).parent))
 
-from anaglyph import AnaglyphMethod, generate_anaglyph, generate_anaglyphs, reprocess_pair
+from anaglyph import AnaglyphMethod, generate_anaglyph, reprocess_pair
 from camera import CameraError, StereoCamera
-from config import config
+from config import config, save_config
 from storage import ImageStorage, StorageError
 
 # ------------------------------------------------------------------
@@ -74,7 +75,7 @@ last_capture: dict = {}
 # ------------------------------------------------------------------
 
 def _mjpeg_generator(side: str):
-    target_interval = 1.0 / 10  # 10 fps cap — reduces bandwidth for reliable capture
+    target_interval = 1.0 / 30  # 30 fps cap
     while True:
         t0 = time.monotonic()
         left, right = stereo_cam.get_preview_frames()
@@ -82,7 +83,7 @@ def _mjpeg_generator(side: str):
         if frame is None:
             time.sleep(0.05)
             continue
-        jpeg = stereo_cam.encode_jpeg(frame, quality=50)
+        jpeg = stereo_cam.encode_jpeg(frame, quality=70)
         yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + jpeg + b"\r\n"
         elapsed = time.monotonic() - t0
         sleep_for = max(0.0, target_interval - elapsed)
@@ -136,16 +137,14 @@ def capture():
 
         left_bgr, right_bgr = stereo_cam.capture_synchronized()
 
-        anaglyphs_map = generate_anaglyphs(
-            left_bgr, right_bgr,
-            [AnaglyphMethod.DUBOIS, AnaglyphMethod.HALFCOLOR, AnaglyphMethod.GRAY],
-        )
-        anaglyphs = {
-            "anaglyph": anaglyphs_map[AnaglyphMethod.DUBOIS],
-            "halfcolor": anaglyphs_map[AnaglyphMethod.HALFCOLOR],
-            "gray":      anaglyphs_map[AnaglyphMethod.GRAY],
-        }
-        result = storage.save_capture(left_bgr, right_bgr, anaglyphs, ts)
+        method_key = config.get("anaglyph", {}).get("method", "color").upper()
+        try:
+            method = AnaglyphMethod[method_key]
+        except KeyError:
+            method = AnaglyphMethod.COLOR
+
+        anaglyph = generate_anaglyph(left_bgr, right_bgr, method)
+        result = storage.save_capture(left_bgr, right_bgr, anaglyph, ts)
         last_capture = result
 
         logger.info("Capture saved: %s/%s", result["date"], result["session"])
@@ -209,15 +208,11 @@ def wifi_switch():
         time.sleep(2)
         try:
             if target == "ap":
-                subprocess.run(["sudo", "nmcli", "con", "mod", "dungy24",        "connection.autoconnect", "no"],  timeout=5)
-                subprocess.run(["sudo", "nmcli", "con", "down", "dungy24"],                                        timeout=10)
-                subprocess.run(["sudo", "nmcli", "con", "mod", "StereoCamPi-AP", "connection.autoconnect", "yes"], timeout=5)
-                subprocess.run(["sudo", "nmcli", "con", "up",   "StereoCamPi-AP"],                                 timeout=15)
+                subprocess.run(["sudo", "nmcli", "con", "down", "dungy24"],        timeout=10)
+                subprocess.run(["sudo", "nmcli", "con", "up",   "StereoCamPi-AP"], timeout=15)
             else:
-                subprocess.run(["sudo", "nmcli", "con", "mod", "StereoCamPi-AP", "connection.autoconnect", "no"],  timeout=5)
-                subprocess.run(["sudo", "nmcli", "con", "down", "StereoCamPi-AP"],                                 timeout=10)
-                subprocess.run(["sudo", "nmcli", "con", "mod", "dungy24",        "connection.autoconnect", "yes"], timeout=5)
-                subprocess.run(["sudo", "nmcli", "con", "up",   "dungy24"],                                        timeout=15)
+                subprocess.run(["sudo", "nmcli", "con", "down", "StereoCamPi-AP"], timeout=10)
+                subprocess.run(["sudo", "nmcli", "con", "up",   "dungy24"],        timeout=15)
             logger.info("WiFi switched to %s", target)
         except Exception as exc:
             logger.error("WiFi switch failed: %s", exc)
@@ -241,12 +236,43 @@ def get_session(date, session):
 
 @app.route("/images/<date>/<session>/<kind>")
 def serve_image(date, session, kind):
-    if kind not in ("left", "right", "anaglyph", "halfcolor", "gray"):
+    if kind not in ("left", "right", "anaglyph"):
         return "Invalid image kind", 400
     path = storage.get_image_path(date, session, kind)
     if not path:
         return "Not found", 404
     return send_file(str(path), mimetype="image/jpeg")
+
+
+@app.route("/focus", methods=["GET"])
+def get_focus():
+    return jsonify({
+        "focus_dioptre": config["cameras"].get("focus_dioptre"),
+        "current_lens_position": stereo_cam.get_lens_position(),
+    })
+
+
+@app.route("/focus", methods=["POST"])
+def set_focus():
+    data = request.get_json(force=True)
+    raw = data.get("focus_dioptre")
+
+    if raw is None:
+        dioptre = None
+    else:
+        try:
+            dioptre = float(raw)
+            if dioptre < 0:
+                return jsonify({"status": "error", "message": "focus_dioptre must be >= 0"}), 400
+        except (ValueError, TypeError):
+            return jsonify({"status": "error", "message": "focus_dioptre must be a number"}), 400
+
+    config["cameras"]["focus_dioptre"] = dioptre
+    save_config(config)
+    stereo_cam.apply_focus(dioptre)
+
+    logger.info("Focus updated: %s", f"{dioptre} dioptre" if dioptre is not None else "auto AF lock")
+    return jsonify({"status": "ok", "focus_dioptre": dioptre})
 
 
 @app.route("/reprocess", methods=["POST"])
