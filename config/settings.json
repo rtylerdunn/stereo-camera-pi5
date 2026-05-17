@@ -5,7 +5,7 @@
         "resolution": {"width": 2304, "height": 1296},
         "preview_resolution": {"width": 640, "height": 360},
         "framerate": 30,
-        "focus_dioptre": 0.5
+        "focus_dioptre": null
     },
     "storage": {
         "base_path": "/home/tyler/stereo-camera/images"

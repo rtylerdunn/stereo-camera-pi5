@@ -71,7 +71,13 @@ class StereoCamera:
             # Let AGC/AWB settle
             time.sleep(2)
 
-            self.apply_focus(self._cfg.get("focus_dioptre"))
+            dioptre = self._cfg.get("focus_dioptre")
+            if dioptre is not None:
+                self.apply_focus(dioptre)
+            else:
+                # Auto mode: continuous AF for a sharp preview; capture will lock before each shot
+                for cam in (self._left_cam, self._right_cam):
+                    cam.set_controls({"AfMode": 2})
             self._initialized = True
             logger.info(
                 "Cameras initialised: left=%d right=%d res=%dx%d",
@@ -183,6 +189,12 @@ class StereoCamera:
         for cam in (self._left_cam, self._right_cam):
             cam.set_controls({"AfMode": 0, "LensPosition": avg})
         logger.info("AF lock: left=%.3f right=%.3f → locked at avg=%.3f", left_pos, right_pos, avg)
+
+    def resume_continuous_af(self) -> None:
+        """Return both cameras to continuous AF (call after a capture in auto mode)."""
+        for cam in (self._left_cam, self._right_cam):
+            cam.set_controls({"AfMode": 2})
+        logger.info("Resumed continuous AF for preview")
 
     def get_lens_position(self) -> Optional[float]:
         """Return the current LensPosition from the left camera metadata."""

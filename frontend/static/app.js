@@ -35,7 +35,7 @@ async function triggerCapture() {
   btn.disabled = true;
   btn.textContent = '● Capturing…';
   status.className = 'capture-status';
-  status.textContent = 'Sending shutter signal…';
+  status.textContent = 'Focusing & capturing…';
 
   try {
     const res  = await fetch('/capture', { method: 'POST' });
