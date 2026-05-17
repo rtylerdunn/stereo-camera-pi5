@@ -137,8 +137,6 @@ def capture():
 
         stereo_cam.apply_focus(config["cameras"].get("focus_dioptre"))
         left_bgr, right_bgr = stereo_cam.capture_synchronized()
-        if config["cameras"].get("focus_dioptre") is None:
-            stereo_cam.resume_continuous_af()
 
         method_key = config.get("anaglyph", {}).get("method", "color").upper()
         try:

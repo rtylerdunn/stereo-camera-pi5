@@ -75,9 +75,9 @@ class StereoCamera:
             if dioptre is not None:
                 self.apply_focus(dioptre)
             else:
-                # Auto mode: continuous AF for a sharp preview; capture will lock before each shot
+                # Auto mode: park VCM at infinity (manual, idle) — capture will AF-lock before each shot
                 for cam in (self._left_cam, self._right_cam):
-                    cam.set_controls({"AfMode": 2})
+                    cam.set_controls({"AfMode": 0, "LensPosition": 0.0})
             self._initialized = True
             logger.info(
                 "Cameras initialised: left=%d right=%d res=%dx%d",
