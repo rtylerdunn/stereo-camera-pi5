@@ -40,8 +40,9 @@ def generate_anaglyph(
     Generate a red/cyan anaglyph from a BGR stereo pair.
 
     Images are automatically resized to match if shapes differ.
-    Tilt is corrected automatically via feature matching so epipolar
-    lines are horizontal regardless of how the rig was held.
+    Alignment is corrected automatically via AKAZE feature matching and
+    RANSAC affine estimation so epipolar lines are horizontal and scale
+    differences are compensated.
     Returns a uint8 BGR image.
     """
     if left_bgr.shape != right_bgr.shape:
@@ -62,7 +63,6 @@ def generate_anaglyph(
     result_f = dispatch[method](left_f, right_f)
 
     return (np.clip(result_f, 0.0, 1.0) * 255.0).astype(np.uint8)
-
 
 
 def generate_anaglyphs(
@@ -113,103 +113,216 @@ def reprocess_pair(
 
 
 # ------------------------------------------------------------------
-# Stereo alignment: tilt correction + convergence adjustment
+# Stereo alignment: full affine correction + convergence + crop
 # ------------------------------------------------------------------
+
+def _compute_valid_crop(
+    h: int,
+    w: int,
+    angle_deg: float,
+    scale_corr: float,
+    ty_full: float,
+    conv_px: float,
+) -> tuple:
+    """
+    Return (x0, y0, x1, y1) — the valid intersection crop box after all
+    right-image transforms have been applied. Values rounded to even pixels
+    to avoid JPEG chroma subsampling seams.
+    """
+    theta = abs(np.radians(angle_deg))
+    rot_x = int(np.ceil(h * np.sin(theta) / 2.0))
+    rot_y = int(np.ceil(w * np.sin(theta) / 2.0))
+    sc_x  = int(np.ceil(max(0.0, scale_corr - 1.0) * w / 2.0))
+    sc_y  = int(np.ceil(max(0.0, scale_corr - 1.0) * h / 2.0))
+    ty_t  = int(np.ceil(max(0.0,  ty_full)))
+    ty_b  = int(np.ceil(max(0.0, -ty_full)))
+    cv_l  = int(np.ceil(max(0.0,  conv_px)))
+    cv_r  = int(np.ceil(max(0.0, -conv_px)))
+
+    x0 = rot_x + sc_x + cv_l
+    x1 = w - rot_x - sc_x - cv_r
+    y0 = rot_y + sc_y + ty_t
+    y1 = h - rot_y - sc_y - ty_b
+
+    x0, y0 = max(0, x0), max(0, y0)
+    x1, y1 = min(w, x1), min(h, y1)
+
+    if x0 % 2: x0 += 1
+    if x1 % 2: x1 -= 1
+    if y0 % 2: y0 += 1
+    if y1 % 2: y1 -= 1
+
+    return x0, y0, x1, y1
+
 
 def _align_stereo(
     left_bgr: np.ndarray,
     right_bgr: np.ndarray,
 ) -> tuple:
     """
-    Auto-align the stereo pair using feature correspondences:
+    Auto-align the stereo pair using AKAZE features and RANSAC affine estimation.
 
-    1. Tilt correction — rotates both images so epipolar lines are horizontal,
-       compensating for the rig being hand-held at an angle.
+    Pipeline (mirrors StereoPhoto Maker's approach):
+    1. AKAZE feature detection + Lowe ratio test for quality matches
+    2. RANSAC estimateAffinePartial2D → rotation, scale, tx, ty
+    3. Apply rotation + scale + vertical shift to RIGHT image only (left is reference)
+    4. Compute remaining horizontal disparity from RANSAC inliers, apply centre-split
+    5. Crop both images to the valid overlap rectangle (eliminates warp border artifacts)
 
-    2. Convergence adjustment — shifts the right image horizontally so the
-       disparity range is centred around zero. With parallel cameras the
-       convergence point is at infinity, putting all depth on the "pop out"
-       side. Centering splits depth evenly in front of and behind the screen
-       plane, halving the maximum disparity the viewer has to fuse.
-
-    Feature detection runs on a 640px-wide downsample for speed; the computed
-    corrections are scaled back up and applied to the full-resolution images.
+    Returns images that may be slightly smaller than the inputs (cropped to valid overlap).
+    Falls back to returning the originals at any stage if alignment cannot be determined.
     """
     h, w = left_bgr.shape[:2]
 
-    scale = min(1.0, 640.0 / w)
-    small_l = cv2.resize(left_bgr, None, fx=scale, fy=scale) if scale < 1.0 else left_bgr
-    small_r = cv2.resize(right_bgr, None, fx=scale, fy=scale) if scale < 1.0 else right_bgr
+    WORK_W = 640
+    scale  = w / WORK_W
+    work_h = int(round(h / scale))
 
-    gray_l = cv2.cvtColor(small_l, cv2.COLOR_BGR2GRAY)
-    gray_r = cv2.cvtColor(small_r, cv2.COLOR_BGR2GRAY)
+    small_l = cv2.resize(left_bgr,  (WORK_W, work_h), interpolation=cv2.INTER_AREA)
+    small_r = cv2.resize(right_bgr, (WORK_W, work_h), interpolation=cv2.INTER_AREA)
+    gray_l  = cv2.cvtColor(small_l, cv2.COLOR_BGR2GRAY)
+    gray_r  = cv2.cvtColor(small_r, cv2.COLOR_BGR2GRAY)
 
-    detector = cv2.ORB_create(nfeatures=500)
-    kp1, des1 = detector.detectAndCompute(gray_l, None)
-    kp2, des2 = detector.detectAndCompute(gray_r, None)
+    # --- Step 1: AKAZE + Lowe ratio test ---
+    # AKAZE is scale+rotation invariant with binary descriptors (no contrib needed).
+    akaze = cv2.AKAZE_create()
+    kp1, des1 = akaze.detectAndCompute(gray_l, None)
+    kp2, des2 = akaze.detectAndCompute(gray_r, None)
 
-    if des1 is None or des2 is None or len(kp1) < 10 or len(kp2) < 10:
-        logger.warning("Stereo alignment: not enough features, skipping")
+    if des1 is None or des2 is None or len(kp1) < 20 or len(kp2) < 20:
+        logger.warning("Stereo alignment: insufficient features (L=%d R=%d), skipping",
+                       len(kp1) if kp1 else 0, len(kp2) if kp2 else 0)
         return left_bgr, right_bgr
 
-    matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-    matches = matcher.match(des1, des2)
-    if len(matches) < 10:
-        logger.warning("Stereo alignment: not enough matches, skipping")
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+    raw_matches = bf.knnMatch(des1, des2, k=2)
+    good = []
+    for pair in raw_matches:
+        if len(pair) == 2:
+            m, n = pair
+            if m.distance < 0.75 * n.distance:
+                good.append(m)
+
+    if len(good) < 15:
+        logger.warning("Stereo alignment: only %d good matches after ratio test, skipping", len(good))
         return left_bgr, right_bgr
 
-    matches = sorted(matches, key=lambda m: m.distance)[:200]
+    pts1 = np.float32([kp1[m.queryIdx].pt for m in good])
+    pts2 = np.float32([kp2[m.trainIdx].pt for m in good])
 
-    pts1 = np.float32([kp1[m.queryIdx].pt for m in matches])
-    pts2 = np.float32([kp2[m.trainIdx].pt for m in matches])
+    # --- Step 2: RANSAC affine estimation (right keypoints → left keypoints) ---
+    M, inlier_mask = cv2.estimateAffinePartial2D(
+        pts2, pts1,
+        method=cv2.RANSAC,
+        ransacReprojThreshold=3.0,
+        maxIters=2000,
+        confidence=0.99,
+    )
 
-    dx = pts2[:, 0] - pts1[:, 0]
-    dy = pts2[:, 1] - pts1[:, 1]
+    if M is None:
+        logger.warning("Stereo alignment: RANSAC affine estimation failed, skipping")
+        return left_bgr, right_bgr
 
-    # --- Tilt correction ---
-    # Valid stereo matches for tilt: horizontal shift must dominate.
-    tilt_valid = (np.abs(dx) > 5) & (np.abs(dy) < np.abs(dx))
-    if tilt_valid.sum() >= 10:
-        tilt_angle = float(np.median(np.arctan2(dy[tilt_valid], dx[tilt_valid])))
-        tilt_deg = np.degrees(tilt_angle)
-        if abs(tilt_deg) > 10.0:
-            logger.warning("Tilt: %.1f° exceeds cap, skipping tilt correction", tilt_deg)
-            tilt_deg = 0.0
-        if abs(tilt_deg) >= 0.1:
-            logger.info("Correcting tilt: %.2f degrees", tilt_deg)
-            center = (w / 2.0, h / 2.0)
-            M = cv2.getRotationMatrix2D(center, -tilt_deg, 1.0)
-            left_bgr = cv2.warpAffine(left_bgr, M, (w, h), flags=cv2.INTER_LINEAR,
-                                      borderMode=cv2.BORDER_REPLICATE)
-            right_bgr = cv2.warpAffine(right_bgr, M, (w, h), flags=cv2.INTER_LINEAR,
-                                       borderMode=cv2.BORDER_REPLICATE)
+    n_inliers = int(inlier_mask.sum()) if inlier_mask is not None else 0
+    if n_inliers < 8:
+        logger.warning("Stereo alignment: only %d RANSAC inliers, skipping", n_inliers)
+        return left_bgr, right_bgr
 
-    # --- Convergence adjustment ---
-    # Valid matches for convergence: small vertical offset confirms they are
-    # genuine stereo pairs (not cross-matched repeated textures). Include
-    # background matches even when dx ≈ 0 since we need the full depth range.
-    conv_valid = np.abs(dy) < 5
-    if conv_valid.sum() >= 10:
-        # Use robust percentiles to find the foreground/background disparity
-        # extremes, then shift so the midpoint of that range lands at zero.
-        p10 = float(np.percentile(dx[conv_valid], 10))   # foreground (large disparity)
-        p90 = float(np.percentile(dx[conv_valid], 90))   # background (small disparity)
-        # Centre-split: balance foreground pop-out and background recession equally.
-        # Optimised for subjects 2 m and beyond; gives natural depth without strain.
-        convergence_small = -(p10 + p90) / 2.0
-        convergence_px = convergence_small / scale        # scale to full resolution
+    # Decompose: M = [[a, -b, tx], [b, a, ty]]
+    a, b    = float(M[0, 0]), float(M[1, 0])
+    s_raw   = float(np.sqrt(a**2 + b**2))
+    ang_raw = float(np.degrees(np.arctan2(b, a)))
+    ty_raw  = float(M[1, 2])
 
-        # Cap at 1/30 image width — don't overcorrect badly matched scenes
-        max_shift = w / 30.0
-        convergence_px = float(np.clip(convergence_px, -max_shift, max_shift))
+    # Sanity caps — prevent wild corrections if RANSAC finds a bad consensus
+    ANG_CAP   = 10.0
+    SCALE_CAP = 0.05
+    angle      = float(np.clip(ang_raw,  -ANG_CAP,           ANG_CAP))
+    scale_corr = float(np.clip(s_raw, 1.0 - SCALE_CAP, 1.0 + SCALE_CAP))
 
-        if abs(convergence_px) > 1.0:
-            logger.info("Applying convergence shift: %.1f px", convergence_px)
-            M_conv = np.float32([[1, 0, convergence_px], [0, 1, 0]])
-            right_bgr = cv2.warpAffine(right_bgr, M_conv, (w, h), flags=cv2.INTER_LINEAR,
-                                       borderMode=cv2.BORDER_REPLICATE)
+    logger.info(
+        "Stereo alignment: RANSAC → angle=%.3f° (raw %.3f°) scale=%.4f (raw %.4f) "
+        "tx=%.1f ty=%.1f px  inliers=%d/%d",
+        angle, ang_raw, scale_corr, s_raw, float(M[0, 2]), ty_raw, n_inliers, len(good),
+    )
 
-    return left_bgr, right_bgr
+    # --- Step 3: Build full-resolution alignment matrix ---
+    # Corrects rotation + scale + vertical shift only.
+    # Horizontal (convergence) is deferred to Step 4 so it can be capped independently.
+    # Left image is the fixed reference; only right image is warped.
+    angle_rad = np.radians(angle)
+    c = scale_corr * np.cos(angle_rad)
+    s = scale_corr * np.sin(angle_rad)
+    cx_f = w / 2.0
+    cy_f = h / 2.0
+    ty_full = ty_raw * scale
+
+    # Rotation+scale about the full-res image centre, plus RANSAC vertical shift
+    M_align = np.array([
+        [c, -s,  cx_f * (1.0 - c) + cy_f * s],
+        [s,  c,  cy_f * (1.0 - c) - cx_f * s + ty_full],
+    ], dtype=np.float64)
+
+    # --- Step 4: Convergence from RANSAC inliers ---
+    # Project right inlier keypoints through the working-res version of M_align,
+    # measure residual horizontal disparity, and apply centre-split.
+    cx_sm = WORK_W / 2.0
+    cy_sm = work_h / 2.0
+    M_align_sm = np.array([
+        [c, -s,  cx_sm * (1.0 - c) + cy_sm * s],
+        [s,  c,  cy_sm * (1.0 - c) - cx_sm * s + ty_raw],
+    ], dtype=np.float64)
+
+    inlier_idx = np.where(inlier_mask.ravel() == 1)[0]
+    pts1_in    = pts1[inlier_idx].astype(np.float64)
+    pts2_in    = pts2[inlier_idx].astype(np.float64)
+
+    ones     = np.ones((len(pts2_in), 1), dtype=np.float64)
+    pts2_hom = np.hstack([pts2_in, ones])
+    pts2_new = (M_align_sm @ pts2_hom.T).T
+
+    dx = pts2_new[:, 0] - pts1_in[:, 0]
+    p10 = float(np.percentile(dx, 10))
+    p90 = float(np.percentile(dx, 90))
+
+    # Centre-split: balance foreground pop-out and background recession.
+    # Cap at 2.5% of working width (SPM recommends 2-3% of image width).
+    CONV_CAP      = WORK_W / 40.0
+    conv_px_small = float(np.clip(-(p10 + p90) / 2.0, -CONV_CAP, CONV_CAP))
+    conv_px_full  = conv_px_small * scale
+
+    logger.info(
+        "Stereo alignment: convergence p10=%.1f p90=%.1f → shift %.1f px (small) / %.1f px (full)",
+        p10, p90, conv_px_small, conv_px_full,
+    )
+
+    # Build the final warp matrix: alignment + convergence in a single pass
+    M_full = M_align.copy()
+    M_full[0, 2] += conv_px_full
+
+    right_out = cv2.warpAffine(
+        right_bgr, M_full, (w, h),
+        flags=cv2.INTER_LINEAR,
+        borderMode=cv2.BORDER_CONSTANT,
+        borderValue=(0, 0, 0),
+    )
+
+    # --- Step 5: Intelligent crop to valid overlap rectangle ---
+    x0, y0, x1, y1 = _compute_valid_crop(h, w, angle, scale_corr, ty_full, conv_px_full)
+
+    if (x1 - x0) < 320 or (y1 - y0) < 320:
+        logger.warning(
+            "Stereo alignment: crop box too small (%dx%d), returning aligned-uncropped",
+            x1 - x0, y1 - y0,
+        )
+        return left_bgr, right_out
+
+    logger.info(
+        "Stereo alignment: crop (%d,%d)→(%d,%d) = %dx%d (was %dx%d, %.1f%% area)",
+        x0, y0, x1, y1, x1 - x0, y1 - y0, w, h,
+        100.0 * (x1 - x0) * (y1 - y0) / (w * h),
+    )
+    return left_bgr[y0:y1, x0:x1], right_out[y0:y1, x0:x1]
 
 
 # ------------------------------------------------------------------
