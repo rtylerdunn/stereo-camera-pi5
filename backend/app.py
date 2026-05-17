@@ -144,7 +144,7 @@ def capture():
             method = AnaglyphMethod.COLOR
 
         anaglyph = generate_anaglyph(left_bgr, right_bgr, method)
-        result = storage.save_capture(left_bgr, right_bgr, anaglyph, ts)
+        result = storage.save_capture(left_bgr, right_bgr, {"anaglyph": anaglyph}, ts)
         last_capture = result
 
         logger.info("Capture saved: %s/%s", result["date"], result["session"])
